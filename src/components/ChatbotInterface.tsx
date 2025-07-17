@@ -15,8 +15,7 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
     if (!input.trim()) return;
 
     const userMessage: ChatMessage = { role: "user", content: input };
-    const assistantMessage: ChatMessage = { role: "assistant", content: "" };
-    setMessages((prev) => [...prev, userMessage, assistantMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true); 
 
@@ -55,15 +54,21 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
 
             setMessages((prev) => {
                 const updated = [...prev];
-                const lastIndex = updated.length - 1;
-                if (updated[lastIndex].role === "assistant") {
-                updated[lastIndex] = {
-                    ...updated[lastIndex],
-                    content: updated[lastIndex].content + content,
-                };
+                const last = updated[updated.length - 1];
+
+                if (last?.role === "assistant") {
+                    updated[updated.length - 1] = {
+                    ...last,
+                    content: last.content + content,
+                    };
+                } else {
+                    // First time we get assistant content, add new message
+                    updated.push({ role: "assistant", content });
                 }
+
                 return updated;
             });
+
             }
         }
         }
