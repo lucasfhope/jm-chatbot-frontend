@@ -100,12 +100,12 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-    <div className="flex-1 px-6 pt-12 w-full max-w-2xl mx-auto">
+    <div className="flex-1 px-6 pt-24 w-full max-w-2xl mx-auto">
         <div className="pb-28">
         {messages.map((m, i) => (
             <div
             key={i}
-            className={`my-1 px-3 py-2 rounded-lg break-words whitespace-pre-wrap ${
+            className={`my-6 px-3 py-2 rounded-lg break-words whitespace-pre-wrap ${
                 m.role === "user"
                 ? "ml-auto max-w-[66%] w-fit bg-blue-100 text-right text-black"
                 : "w-full bg-white text-left"
