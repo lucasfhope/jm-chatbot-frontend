@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout( props: {children: ReactNode} ) {
   return (
     <html lang="en">
-      <body className="py-10 bg-gray-100">
-        <Header />
+      <body className="bg-gray-100">
         {props.children}
       </body>
     </html>
