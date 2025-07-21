@@ -108,7 +108,7 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
             </div>
         ))}
         {loading && (
-            <div className="flex justify-start items-center mt-2">
+            <div className="flex justify-start items-center mt-2  pb-20">
                 <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                 <span className="ml-2 text-sm text-gray-500">Thinking...</span>
             </div>
