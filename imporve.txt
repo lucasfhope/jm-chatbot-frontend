@@ -1,7 +1,5 @@
-- initial message is behind the header because of the scrolling
+- inline and blopck math are causing some problems ... when they show up
 
-- the messages are not cached properly, probably because of the way the message lists are created in page.tsx
-they go away upon reload
 
 - of course, keep on tuining the llm prompting for better results. 
 Maybge also add a path that just looks at message history to keep up the conversation and provide more insights to the user.
