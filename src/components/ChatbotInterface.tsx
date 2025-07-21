@@ -78,18 +78,6 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
     }
     };
 
-
-  useEffect(() => {
-    localStorage.setItem("messages", JSON.stringify(messages));
-  }, [messages]);
-
-  useEffect(() => {
-    const cached = localStorage.getItem("messages");
-    if (cached) {
-      setMessages(JSON.parse(cached));
-    }
-  }, []);
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     if (textareaRef.current) {
