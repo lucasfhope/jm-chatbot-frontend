@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, use } from "react";
 import { ChatbotMessagesInterface, ChatMessage } from "@/types/messages";
 import { markdownComponents } from "@/components/MarkdownComponents";
+import { cleanMarkdownForDisplay } from "@/utils/cleanMarkdown";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -17,7 +18,7 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
     const userMessage: ChatMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    setLoading(true); 
+    setLoading(true);
 
     try {
         const res = await fetch("http://0.0.0.0:8000/query_chatbot", {
@@ -47,7 +48,23 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
             let content = line.slice(6);
 
             if (content === "") content = "\n";
+
             if (content === "[DONE]") {
+                // Clean final assistant message
+                setMessages((prev) => {
+                const updated = [...prev];
+                const last = updated[updated.length - 1];
+
+                if (last?.role === "assistant") {
+                    updated[updated.length - 1] = {
+                    ...last,
+                    content: cleanMarkdownForDisplay(last.content),
+                    };
+                }
+
+                return updated;
+                });
+
                 setLoading(false);
                 return;
             }
@@ -57,26 +74,25 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
                 const last = updated[updated.length - 1];
 
                 if (last?.role === "assistant") {
-                    updated[updated.length - 1] = {
+                updated[updated.length - 1] = {
                     ...last,
                     content: last.content + content,
-                    };
+                };
                 } else {
-                    // First time we get assistant content, add new message
-                    updated.push({ role: "assistant", content });
+                updated.push({ role: "assistant", content });
                 }
 
                 return updated;
             });
-
             }
         }
         }
-    } catch (err) {
-        console.error(err);
-        setLoading(false);
-    }
+      } catch (err) {
+          console.error("Stream error:", err);
+          setLoading(false);
+      }
     };
+
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
@@ -91,9 +107,10 @@ export default function ChatbotInterface({ messages, setMessages }: ChatbotMessa
     <div className="flex-1 px-6 pt-24 w-full max-w-2xl mx-auto">
         <div className="pb-28">
         {messages.map((m, i) => (
+            console.log(messages),
             <div
             key={i}
-            className={`my-6 px-3 py-2 rounded-lg break-words whitespace-pre-wrap ${
+            className={`my-6 px-3 py-2 rounded-lg break-words whitespace-pre-line ${
                 m.role === "user"
                 ? "ml-auto max-w-[66%] w-fit bg-blue-100 text-left text-black"
                 : "w-full bg-white text-left"
