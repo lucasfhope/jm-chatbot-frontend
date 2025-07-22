@@ -1,0 +1,8 @@
+- inline and block math are causing some problems ... when they show up (I dont see math much but looks bad if it shows up)
+
+- Spacing is weird, especially due to lists, updating padding and margin in MarkdownComponents is not resolving the problems.
+
+
+- There is a path for not prompting the DB when not asking for both a region and company
+    - Time series?
+    
