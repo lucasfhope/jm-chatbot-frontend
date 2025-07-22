@@ -5,4 +5,35 @@
 
 - There is a path for not prompting the DB when not asking for both a region and company
     - Time series?
+
+
+- In the cleanMD util function, I may clean out tables, which should be kept as they are good to visualize the data
+    - this might not be the case, but still getting bullets above what they should be bulets for
     
+    
+    
+    
+    
+    - indenting for subsections should be importnat as well
+
+        ```
+        let lines = rawText.split("\n");
+        let formatted = [];
+
+        for (let line of lines) {
+        if (line.trim() === "") continue;
+
+        if (/:\s*\$\d/.test(line)) {
+            // Indent line if it's a price line (e.g., "6-inch: $7.09")
+            formatted.push(`  - ${line.trim()}`);
+        } else {
+            // Treat as top-level item
+            formatted.push(`- **${line.trim()}**`);
+        }
+        }
+
+        return formatted.join("\n");
+        ```
+
+
+            
