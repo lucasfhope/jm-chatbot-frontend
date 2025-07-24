@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: price-analyzer-backend
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+    environment:
+      - FLASK_APP=api.py            # 👈 required for flask run
+      - FLASK_ENV=development       # 👈 optional: auto-reload
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - qdrant
+    ports:
+      - "8000:8000"
+    command: sleep infinity  # Override with make, shell script, etc.
+
+  qdrant:
+    image: qdrant/qdrant:v1.14.1
+
+
+    container_name: price-analyzer-qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage  # ✅ local folder for persistence
+
+
